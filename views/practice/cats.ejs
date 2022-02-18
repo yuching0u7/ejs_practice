@@ -1,0 +1,9 @@
+<%- include('components/head') %>
+<%- include('components/nav') %>
+<h1>All Cats</h1>
+<ul>
+  <% for(let cat of cats) { %>
+  <li><%= cat %></li>
+  <% } %>
+</ul>
+<%- include('components/footer') %>

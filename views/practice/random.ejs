@@ -1,0 +1,10 @@
+<%- include('components/head')%>
+<%- include('components/nav')%>
+<h1>Your Random Number is: <%= num %></h1>
+<% if (num % 2 === 0){ %>
+<h2>That is an even number!</h2>
+<% }else{ %>
+<h2>That is an odd number!</h2>
+<% } %>
+
+<%- include('components/footer')%>
