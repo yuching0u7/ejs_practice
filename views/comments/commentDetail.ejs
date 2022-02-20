@@ -1,7 +1,17 @@
 <div class="card">
-  <img src="https://picsum.photos/id/<%= imgId %>/300" class="card-img-top" alt="...">
+  <img src="https://picsum.photos/id/<%= imgId %>/400" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title"><%= comment.username %> </h5>
     <p class="card-text"><%= comment.comment %> </p>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editComment">Edit</button>
+      <form action="/comments/<%= comment.id %>?_method=DELETE" method="post">
+        <button class="btn btn-outline-danger">Delete</button>
+      </form>
+    </div>
   </div>
+</div>
+
+<div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="editComment" aria-hidden="true">
+  <%- include('commentForm') %>
 </div>

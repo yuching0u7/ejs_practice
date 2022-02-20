@@ -1,4 +1,8 @@
 const express = require('express')
+const {
+  v4: uuid
+} = require('uuid')
+const methodOverride = require('method-override')
 const path = require('path')
 const app = express()
 
@@ -11,25 +15,27 @@ app.use(express.urlencoded({
   extended: true
 }))
 app.use(express.json())
+app.use(methodOverride('_method'))
 
-const comments = [{
-  id: '1',
+// dummy data
+let comments = [{
+  id: uuid(),
   username: 'User A',
   comment: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
 }, {
-  id: '2',
+  id: uuid(),
   username: 'User B',
   comment: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.'
 }, {
-  id: '3',
+  id: uuid(),
   username: 'User C',
   comment: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.'
 }, {
-  id: '4',
+  id: uuid(),
   username: 'User D',
   comment: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.'
 }, {
-  id: '5',
+  id: uuid(),
   username: 'User F',
   comment: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
 }]
@@ -37,11 +43,24 @@ const comments = [{
 app.get('/', (req, res) => {
   res.render('index', {
     title: 'Home Page',
-    comments: comments
+    comments: comments,
+    editMode: false
   })
 })
+app.post('/comments', (req, res) => {
+  const {
+    username,
+    comment
+  } = req.body
+  comments.push({
+    id: uuid(),
+    username: username,
+    comment: comment,
+  })
+  res.redirect('/')
+})
 app.get('/comments/:id', (req, res) => {
-  const num = Math.floor(Math.random() * 500) + 1
+  const num = Math.floor(Math.random() * 100) + 1
   const {
     id
   } = req.params
@@ -51,19 +70,23 @@ app.get('/comments/:id', (req, res) => {
   res.render('comment', {
     title: 'Comment',
     comment: comment,
-    imgId: num
+    imgId: num,
+    editMode: true
   })
 })
-app.post('/comments', (req, res) => {
-  const {
-    username,
-    comment
-  } = req.body
-  comments.push({
-    id: Date.now(),
-    username: username,
-    comment: comment
-  })
+app.patch('/comments/:id', (req, res) => {
+  console.log('patch')
+  const { id } = req.params
+  const commentText = req.body.comment
+  const comment = comments.find(comment =>
+    comment.id === id
+  )
+  comment.comment = commentText
+  res.redirect('/')
+})
+app.delete('/comments/:id', (req, res) => {
+  const { id } = req.params
+  comments = comments.filter(comment => comment.id !== id)
   res.redirect('/')
 })
 app.get('/login', (req, res) => {
