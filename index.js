@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
   })
 })
 app.get('/comments/:id', (req, res) => {
-  const num = Math.floor(Math.random() * 1000) + 1
+  const num = Math.floor(Math.random() * 500) + 1
   const {
     id
   } = req.params
@@ -75,19 +75,19 @@ app.post('/login', (req, res) => {
   console.log(req.body)
   res.redirect('/')
 })
-app.get('/cats', (req, res) => {
-  res.render('cats', {
-    cats: ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', ],
-    title: 'Cats'
-  })
-})
-app.get('/random', (req, res) => {
-  const num = Math.floor(Math.random() * 10) + 1
-  res.render('random', {
-    num: num,
-    title: 'Random Number'
-  })
-})
+// app.get('/cats', (req, res) => {
+//   res.render('cats', {
+//     cats: ['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', ],
+//     title: 'Cats'
+//   })
+// })
+// app.get('/random', (req, res) => {
+//   const num = Math.floor(Math.random() * 10) + 1
+//   res.render('random', {
+//     num: num,
+//     title: 'Random Number'
+//   })
+// })
 
 app.use('*', (req, res) => {
   res.render('notfound', {
